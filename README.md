@@ -22,7 +22,44 @@ Have packer create a virtual machine image of DevStack within OpenStack. This wi
 
 #### Run Packer
 
-    packer build packer-devstack/openstack.json
+    $ glance image-list
+    +--------------------------------------+---------------+-------------+------------------+-------------+--------+
+    | ID                                   | Name          | Disk Format | Container Format | Size        | Status |
+    +--------------------------------------+---------------+-------------+------------------+-------------+--------+
+    | d88ae264-d2bb-42cf-8914-94042f579322 | ubuntu-trusty | qcow2       | bare             | 256180736   | active |
+    +--------------------------------------+---------------+-------------+------------------+-------------+--------+
+
+    $ packer build packer-devstack/openstack.json
+    openstack output will be in this color.
+    ==> openstack: Creating temporary keypair for this instance...
+    ==> openstack: Waiting for server (0f263a60-b5e9-45f9-9b86-3cfe00a55b63) to become ready...
+    ==> openstack: Waiting for SSH to become available...
+    ==> openstack: Connected to SSH!
+    ==> openstack: Provisioning with shell script: scripts/root_setup.sh
+    
+    ...
+    
+    openstack: Horizon is now available at http://172.30.128.6/
+    openstack: Keystone is serving at http://172.30.128.6:5000/v2.0/
+    openstack: Examples on using novaclient command line is in exercise.sh
+    openstack: The default users are: admin and demo
+    openstack: The password: secrete
+    openstack: This is your host ip: 172.30.128.6
+    openstack: 2015-02-02 20:44:20.464 | stack.sh completed in 1298 seconds.
+    ==> openstack: Creating the image: test-devstack
+    ==> openstack: Image: 84d4dcc9-4f19-46d5-9b6e-84c6d5b0f1fe
+    ==> openstack: Waiting for image to become ready...
+    ==> openstack: Terminating the source server...
+    ==> openstack: Deleting temporary keypair...
+    Build 'openstack' finished.
+    
+    $ glance image-list
+    +--------------------------------------+-----------------+-------------+------------------+-------------+--------+
+    | ID                                   | Name            | Disk Format | Container Format | Size        | Status |
+    +--------------------------------------+-----------------+-------------+------------------+-------------+--------+
+    | 84d4dcc9-4f19-46d5-9b6e-84c6d5b0f1fe | trusty-devstack | qcow2       | bare             | 2923757568  | active |
+    | d88ae264-d2bb-42cf-8914-94042f579322 | ubuntu-trusty   | qcow2       | bare             | 256180736   | active |
+    +--------------------------------------+-----------------+-------------+------------------+-------------+--------+
     
 ## Dependencies
 * [OpenStack](http://www.openstack.org/software)
