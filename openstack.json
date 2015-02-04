@@ -5,7 +5,7 @@
         "password": "",
         "username": "",
         "project": "",
-        "provider": "http://172.18.1.50:5000/v2.0",
+        "provider": "http://x.x.x.x:5000/v2.0",
         "ssh_username": "ubuntu",
         "image_name": "",
         "source_image": "",
@@ -14,21 +14,17 @@
   ],
   "provisioners": [
     { 
-      "override": {
-        "openstack": {
-          "execute_command": "sudo -E sh '{{ .Path }}'"
-        }
-      },
-      "scripts": [
-        "scripts/root_setup.sh"
-      ],
-      "type": "shell"
+      "type": "shell",
+      "execute_command": "chmod +x {{ .Path }}; {{ .Vars }} sudo -E '{{ .Path }}'",
+      "script": "scripts/root_setup.sh"
     },
-    { 
-      "scripts": [
-        "scripts/setup.sh"
-      ],
-      "type": "shell"
+    {
+      "type": "shell",
+      "script": "scripts/setup.sh"
+    },
+    {
+      "type": "shell",
+      "inline": "sudo mysqladmin -u root password secrete"
     }
   ]
 }
