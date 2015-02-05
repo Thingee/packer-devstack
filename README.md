@@ -60,7 +60,34 @@ Have packer create a virtual machine image of DevStack within OpenStack. This wi
     | 84d4dcc9-4f19-46d5-9b6e-84c6d5b0f1fe | trusty-devstack | qcow2       | bare             | 2923757568  | active |
     | d88ae264-d2bb-42cf-8914-94042f579322 | ubuntu-trusty   | qcow2       | bare             | 256180736   | active |
     +--------------------------------------+-----------------+-------------+------------------+-------------+--------+
-    
-## Dependencies
-* [OpenStack](http://www.openstack.org/software)
-* [Packer](http://packer.io)
+
+#### Start A DevStack Virtual Machine
+
+    $ nova boot --image trusty-devstack --user-data packer-devstack/user-data/devstack.sh --flavor 3 --key-name mykey devstack-vm
+
+This will first do a git pull on /opt/stack directories, and then run stack.sh:
+
+    Updating cinder
+    Already up-to-date.
+    Updating glance
+    Already up-to-date.
+    Updating heat
+    Already up-to-date.
+    Updating heat-cfntools
+    Already up-to-date.
+    Updating heat-templates
+    Already up-to-date.
+    Updating horizon
+    Already up-to-date.
+    Updating keystone
+    Already up-to-date.
+
+    ...
+
+    Horizon is now available at http://172.30.128.5/
+    Keystone is serving at http://172.30.128.5:5000/v2.0/
+    Examples on using novaclient command line is in exercise.sh
+    The default users are: admin and demo
+    The password: secrete
+    This is your host ip: 172.30.128.5
+    2015-02-05 23:04:35.165 | stack.sh completed in 332 seconds.
